@@ -16,7 +16,6 @@ cd /home/ubuntu/
 # fi
 
 # Verify Go installation
-go version
 
 rm -rf vendor
 go clean -modcache
