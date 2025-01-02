@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            height: 100vh;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+        }
+        
+        .project-run {
+            padding: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .project-run:hover {
+            background-color: #e9ecef;
+        }
+        
+        .project-run.active {
+            background-color: #ffd970;
+        }
+        
+        .chart-placeholder {
+            background-color: #dee2e6;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .nav-tabs .nav-link {
+            color: #495057;
+        }
+        
+        .nav-tabs .nav-link.active {
+            font-weight: 500;
+        }
+        
+        .content-area {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-2 sidebar p-0">
+                <div class="p-3">
+                    <h5>Project name</h5>
+                </div>
+                <div class="project-run">Run alpha</div>
+                <div class="project-run active">Run beta</div>
+                <div class="project-run">Run gamma</div>
+                <div class="project-run">Run omega</div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-10">
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mt-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#charts">Charts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="api/log" hx-get="true" hx-swap="outerHTML" hx-target="">Logs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inference">Inference</a>
+                    </li>
+                </ul>
+                
+                <!-- Content Area -->
+                <div class="content-area">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="chart-placeholder">
+                                *Chart
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="chart-placeholder">
+                                *Chart
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="chart-placeholder">
+                                *Chart
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="chart-placeholder">
+                                *Chart
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Handle project run selection
+        document.querySelectorAll('.project-run').forEach(run => {
+            run.addEventListener('click', () => {
+                document.querySelectorAll('.project-run').forEach(r => r.classList.remove('active'));
+                run.classList.add('active');
+            });
+        });
+
+        // Handle tab navigation
+        document.querySelectorAll('.nav-link').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

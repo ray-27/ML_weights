@@ -3,18 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTMX Example</title>
-    <script src="https://unpkg.com/htmx.org"></script> <!-- Load HTMX -->
+    <title>Centered Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTMX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.10/htmx.min.js"></script>
 </head>
-<body>
-    <div id="content">
-        <p>Click the button to load content from the /about API: this is a change</p>
+<body class="bg-light">
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="text-center">
+            <h1 class="display-4 mb-4">Welcome to ML noter</h1>
+            <p class="lead mb-4">Track model training steps, get insight and make predections <br> Get started now !</p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="/signup">
+                <button class="btn btn-primary btn-lg px-4 gap-3">
+                    SignUp
+                </button></a>
+
+                <a href="/login">
+                <button
+                    class="btn btn-outline-secondary btn-lg px-4"
+                    >
+                    Login
+                </button>
+            </a>
+            </div>
+        </div>
     </div>
-    <button 
-        hx-get="/about" 
-        hx-target="#content" 
-        hx-swap="innerHTML">
-        Load About
-    </button>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

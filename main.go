@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -30,6 +31,15 @@ func main() {
 
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
+	// Define a custom function map with safeHTML
+	funcMap := template.FuncMap{
+		"safeHTML": func(html string) template.HTML {
+			return template.HTML(html)
+		},
+	}
+
+	// Use the custom function map
+	router.SetFuncMap(funcMap)
 
 	handler.Routes(router)
 
