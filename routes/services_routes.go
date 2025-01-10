@@ -18,8 +18,6 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-
-
 func ChartWs(c *gin.Context) {
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
@@ -97,4 +95,10 @@ func POOST(c *gin.Context) {
 
 	log.Println(body.Email)
 
+}
+
+func Te(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "okay",
+	})
 }

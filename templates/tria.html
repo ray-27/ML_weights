@@ -50,83 +50,65 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-2 sidebar p-0">
-                <div class="p-3">
-                    <h5>Project name</h5>
-                </div>
-                <div class="project-run">Run alpha</div>
-                <div class="project-run active">Run beta</div>
-                <div class="project-run">Run gamma</div>
-                <div class="project-run">Run omega</div>
-            </div>
-            
-            <!-- Main Content -->
-            <div class="col-10">
-                <!-- Tabs -->
-                <ul class="nav nav-tabs mt-3">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#charts">Charts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="api/log" hx-get="true" hx-swap="outerHTML" hx-target="">Logs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#inference">Inference</a>
-                    </li>
-                </ul>
-                
-                <!-- Content Area -->
-                <div class="content-area">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="chart-placeholder">
-                                *Chart
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="chart-placeholder">
-                                *Chart
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="chart-placeholder">
-                                *Chart
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="chart-placeholder">
-                                *Chart
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Handle project run selection
-        document.querySelectorAll('.project-run').forEach(run => {
-            run.addEventListener('click', () => {
-                document.querySelectorAll('.project-run').forEach(r => r.classList.remove('active'));
-                run.classList.add('active');
+    <div class="chart-container">
+        <canvas id="lineChart" width="400" height="200"></canvas>
+        <script>
+          (function initializeChart() {
+            const ctx = document.getElementById("lineChart").getContext("2d");
+      
+            // Initialize Chart.js
+            const lineChart = new Chart(ctx, {
+              type: "line",
+              data: {
+                labels: [], // Timestamps
+                datasets: [
+                  {
+                    label: "Real-Time Data",
+                    data: [], // Dynamic values
+                    borderColor: "blue",
+                    backgroundColor: "rgba(0, 0, 255, 0.1)",
+                    fill: true,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                scales: {
+                  x: {
+                    type: "time",
+                    time: {
+                      unit: "second",
+                      displayFormats: {
+                        second: "h:mm:ss a",
+                      },
+                    },
+                  },
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              },
             });
-        });
-
-        // Handle tab navigation
-        document.querySelectorAll('.nav-link').forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelectorAll('.nav-link').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-            });
-        });
-    </script>
+      
+            const socket = new WebSocket("ws://localhost:8080/ws");
+      
+            socket.onmessage = function (event) {
+              const data = JSON.parse(event.data);
+              const timestamp = new Date(data.timestamp * 1000);
+              const value = data.value;
+      
+              lineChart.data.labels.push(timestamp);
+              lineChart.data.datasets[0].data.push(value);
+      
+              lineChart.update();
+            };
+      
+            socket.onerror = function (error) {
+              console.error("WebSocket error:", error);
+            };
+          })();
+        </script>
+      </div>
+      
 </body>
 </html>

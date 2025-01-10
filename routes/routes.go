@@ -34,4 +34,6 @@ func Routes(r *gin.Engine) {
 	r.GET("/chart-component.html", func(c *gin.Context) {
 		c.HTML(200, "chart-component.html", nil)
 	})
+
+	r.GET("/test", Te)
 }
